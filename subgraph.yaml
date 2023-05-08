@@ -1,0 +1,30 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: UniswapV2Factory
+    network: fantom
+    source:
+      address: "0xC831A5cBfb4aC2Da5ed5B194385DFD9bF5bFcBa7"
+      abi: UniswapV2Factory
+      startBlock: 28898932
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - PairCreated
+        - SetFeeTo
+        - SetFeeToSetter
+      abis:
+        - name: UniswapV2Factory
+          file: ./abis/UniswapV2Factory.json
+      eventHandlers:
+        - event: PairCreated(indexed address,indexed address,address,uint256)
+          handler: handlePairCreated
+        - event: SetFeeTo(indexed address,indexed address)
+          handler: handleSetFeeTo
+        - event: SetFeeToSetter(indexed address,indexed address)
+          handler: handleSetFeeToSetter
+      file: ./src/uniswap-v-2-factory.ts
